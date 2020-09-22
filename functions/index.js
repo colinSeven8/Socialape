@@ -4,7 +4,7 @@ const app = require('express')();
 admin.initializeApp();
 
 const config = { //Was firebaseConfig
-    apiKey: "AIzaSyB0y7MN3TwrBBeOSGS2Emy6VP17r0eK0zM",
+    apiKey: process.env.API_KEY,
     authDomain: "socialape-632ab.firebaseapp.com",
     databaseURL: "https://socialape-632ab.firebaseio.com",
     projectId: "socialape-632ab",
