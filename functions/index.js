@@ -42,15 +42,17 @@ const FBAuth = (req, res, next) => {
     let idToken;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
         idToken = req.headers.authorization.split('Bearer ')[1]; //Bearer is convention and precedes the actual token
+        console.log(`Starts with 'Bearer ${idToken}'`);
     } else {
-        console.log('No token found');
-        return res.status(403).json({ error: 'Unauthorized '});
+        console.error('No token found');
+        return res.status(403).json({ error: 'Unauthorized' });
     }
 
+    // Verify that the token actually came from us
     admin.auth().verifyIdToken(idToken)
-    .then(decodedToken => {
+    .then(decodedToken => { //THis will add to our "req" data when we proceed in our post
         req.user = decodedToken;
-        console.log(decodedToken);
+        console.log(`decodedToken: ${decodedToken}`);
         return db.collection('users')
         .where('userId', '==', req.user.uid)
         .limit(1) //Limit to one record
@@ -61,11 +63,12 @@ const FBAuth = (req, res, next) => {
         return next(); //Allows request to proceed
     })
     .catch(err => {
-        console.error('Error while verifying token ', err);
+        console.error(`Error while verifying token ${err}`);
         return res.status(403).json(err);
     });
 }
 
+// Post a scream
 app.post('/scream', FBAuth, (req, res) => {
     const newScream = {
         body: req.body.body,
@@ -144,7 +147,7 @@ app.post('/signup', (req, res) => {
             createdAt: new Date().toISOString(),
             userId
         };
-        return db.doc(`/users'/${newUser.handle}`).set(userCredentials);
+        return db.doc(`/users/${newUser.handle}`).set(userCredentials);
     })
     .then(() => {
         return res.status(201).json({ token });
