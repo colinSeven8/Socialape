@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = { //Was firebaseConfig
     apiKey: process.env.API_KEY,
     authDomain: "socialape-632ab.firebaseapp.com",
