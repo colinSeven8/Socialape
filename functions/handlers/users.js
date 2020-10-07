@@ -83,3 +83,12 @@ exports.login = (req, res) => {
         } else return res.status(500).json({ error: err.code });
     });
 }
+
+exports.uploadImage = (req, res) => {
+    const busboy = require('busboy');
+    const path = require('path');
+    const os = require('os');
+    const fs = require('fs');
+
+    //const busboy = B
+}
