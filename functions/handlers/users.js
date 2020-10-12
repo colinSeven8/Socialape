@@ -4,14 +4,13 @@ const firebase = require('firebase');
 firebase.initializeApp(config);
 
 const { validateSignupData, validateLoginData } = require('../util/validators');
-const admin = require('../util/admin');
 
 exports.signup = (req, res) => {
     const newUser = {
         email: req.body.email,
         password: req.body.password,
         confirmPassword: req.body.confirmPassword,
-        handle: req.body.handle    
+        handle: req.body.handle
     };
 
     const { valid, errors } = validateSignupData(newUser);
@@ -42,8 +41,8 @@ exports.signup = (req, res) => {
         const userCredentials = {
             handle: newUser.handle,
             email: newUser.email,
-            imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`,
             createdAt: new Date().toISOString(),
+            imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`,
             userId
         };
         return db.doc(`/users/${newUser.handle}`).set(userCredentials);
@@ -89,12 +88,12 @@ exports.login = (req, res) => {
 }
 
 exports.uploadImage = (req, res) => {
-    const busboy = require('busboy');
+    const BusBoy = require('busboy');
     const path = require('path');
     const os = require('os');
     const fs = require('fs');
 
-    const busboy = new busboy({ headers: req.headers });
+    const busboy = new BusBoy({ headers: req.headers });
 
     let imageFileName;
     let imageToBeUploaded = {};
@@ -132,6 +131,7 @@ exports.uploadImage = (req, res) => {
         .catch(err => {
             console.error(err);
             return res.status(500).json({ error: err.code });
-        })
-    })
-}
+        });
+    });
+    busboy.end(req.rawBody);
+};
