@@ -1,4 +1,16 @@
 let db = {
+    users: [
+        {
+        userId: 'fdsgrvrsvsdvdsfv',
+        email: 'user@email.com',
+        handle: 'user',
+        createdAt: '2020-10-15T10:59:52.798Z',
+        imageUrl: 'image/asgasvsvfdf/dfdfvfvf',
+        bio: 'Nello, my name is user, nice to meet you',
+        website: 'https://user.com',
+        location: 'Salt Lake City, UT'
+        }
+    ],
     screams: [
         {
             userHandle: 'user',

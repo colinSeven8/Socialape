@@ -5,7 +5,6 @@ module.exports = (req, res, next) => {
     let idToken;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) { //Check for the authorization header and if "Bearer" is found
         idToken = req.headers.authorization.split('Bearer ')[1]; //Bearer is convention and precedes the actual token
-        console.log(`Starts with 'Bearer ${idToken}'`);
     } else {
         console.error('No token found');
         return res.status(403).json({ error: 'Unauthorized' });
