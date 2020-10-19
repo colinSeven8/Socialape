@@ -99,6 +99,9 @@ exports.uploadImage = (req, res) => {
     let imageToBeUploaded = {};
 
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => { //Need to include all of these arguments for 'on' even though we don't them all
+    if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
+        return res.status(400).json({ error: 'Wrong file type sumbitted' });
+    }
     console.log(fieldname);
     console.log(filename);
     console.log(mimetype);
@@ -109,11 +112,11 @@ exports.uploadImage = (req, res) => {
         //joining these creates the full file path
         const filePath = path.join(os.tmpdir(), imageFileName);
         //Object with 2 properties
-        imageToBeUploaded = { filepath, mimetype };
-        file.pipe(fs.createWriteStream(filepath));
+        imageToBeUploaded = { filePath, mimetype };
+        file.pipe(fs.createWriteStream(filePath));
     });
     busboy.on('finish', () => {
-        admin.storage().bucket().upload(imageToBeUploaded.filepath, {
+        admin.storage().bucket().upload(imageToBeUploaded.filePath, {
             resumable: false,
             metadata: {
                 metadata: {
@@ -122,7 +125,7 @@ exports.uploadImage = (req, res) => {
             }
         })
         .then(() => {
-            const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`
+            const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
             return db.doc(`/users/${req.user.handle}`).update({ imageUrl });
         })
         .then(() => {

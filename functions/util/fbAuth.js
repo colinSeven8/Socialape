@@ -1,8 +1,9 @@
 const { admin, db } = require('./admin');
 
 module.exports = (req, res, next) => {
+    //First, get the id token
     let idToken;
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) { //Check for the authorization header and if "Bearer" is found
         idToken = req.headers.authorization.split('Bearer ')[1]; //Bearer is convention and precedes the actual token
         console.log(`Starts with 'Bearer ${idToken}'`);
     } else {
@@ -11,10 +12,10 @@ module.exports = (req, res, next) => {
     }
 
     // Verify that the token actually came from us
-    admin.auth().verifyIdToken(idToken)
-    .then(decodedToken => { //THis will add to our "req" data when we proceed in our post
+    admin.auth()
+    .verifyIdToken(idToken)
+    .then(decodedToken => { //THis will add to our request data when we proceed in our post
         req.user = decodedToken;
-        console.log(`decodedToken: ${decodedToken}`);
         return db.collection('users')
         .where('userId', '==', req.user.uid)
         .limit(1) //Limit to one record
