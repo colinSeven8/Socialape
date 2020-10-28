@@ -20,5 +20,28 @@ let db = {
             commentCount: 2
         }
     ]
+};
+const userDetails = {
+    // Redux data
+    credentials: {
+        userId: 'HH8GO384NO8VLE9349FJ49',
+        email: 'user@email.com',
+        handle: 'user',
+        createdAt: '2020-10-28T10:59:52.798Z',
+        imageUrl:'image/dfbdfbaebdbf/dfbdfbdfbdb',
+        bio: 'Hello, my name is user, nice to meet you',
+        website: 'https://user.com',
+        location: 'London, UK'
+    },
+    likes: [
+        {
+            userHandle: 'user',
+            screamId: 'ijorinovielierij'
+        },
+        {
+            userHandle: 'user',
+            screamId: 'oijg9w8rhouinivd'
+        }
+    ]
 }
 //Doing this will minimize the number of "reads" on my FIrebase DB so it doesn't rape me on charges $
