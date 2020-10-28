@@ -93,8 +93,9 @@ exports.login = (req, res) => {
 exports.addUserDetails = (req, res) => {
     let userDetails = reduceUserDetails(req.body);
     
+    // Look for document of user
     db.doc(`/users/${req.user.handle}`)
-    .update(userDetails)
+    .update(userDetails) //userDetails will return whatever data that the user has entered
     .then(() => {
         return res.json({ message: 'Details added successfully' });
     })
@@ -118,7 +119,7 @@ exports.uploadImage = (req, res) => {
 
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => { //Need to include all of these arguments for 'on' even though we don't them all
     if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
-        return res.status(400).json({ error: 'Wrong file type sumbitted' });
+        return res.status(400).json({ error: 'Wrong file type sumbitted' }); //400 bad request
     }
     console.log(fieldname);
     console.log(filename);

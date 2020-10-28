@@ -43,7 +43,7 @@ exports.validateLoginData = (data) => {
 };
 
 // Ensure no empty strings are sent to DB
-exports.reduceUserDetails = (data) => {
+exports.reduceUserDetails = (data) => { //data is req.body
     let userDetails = {};
 
     if (!isEmpty(data.bio.trim())) userDetails.bio = data.bio;
