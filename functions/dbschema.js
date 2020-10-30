@@ -19,6 +19,14 @@ let db = {
             likeCount: 5,
             commentCount: 2
         }
+    ],
+    comments: [
+        {
+            userHandle: 'user',
+            screamId: 'fbeaergerdgteg',
+            body: 'Nice one, mate!',
+            createdAt: '2020-09-18T17:25:20.061Z'
+        }
     ]
 };
 const userDetails = {
