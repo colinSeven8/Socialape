@@ -19,11 +19,10 @@ const {
   uploadImage,
   addUserDetails,
   getAuthenticatedUser,
-  getUserDetails,
-  markNotificationsRead
+  getUserDetails
 } = require("./handlers/users");
 
-//Scream routes
+//Scream route
 app.get("/screams", getAllScreams);
 
 app.post("/scream", FBAuth, postOneScream);
@@ -40,7 +39,7 @@ app.post("/user/image", FBAuth, uploadImage);
 app.post("/user", FBAuth, addUserDetails);
 app.get("/user", FBAuth, getAuthenticatedUser);
 app.get('/user/:handle', getUserDetails);
-app.post('/notifications', FBAuth, markNotificationsRead);
+//app.post('/notifications', FBAuth, markNotificationsRead);
 
 // exports.api = functions.https.onRequest(app);
 exports.api = functions.region("us-west3").https.onRequest(app); //region for SLC

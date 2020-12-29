@@ -125,11 +125,13 @@ exports.getUserDetails = (req, res) => {
           .where("userHandle", "==", req.params.handle)
           .orderBy("createdAt", "desc")
           .get();
+      } else {
+        return res.status(404).json({ error: 'User not found' });
       }
     })
-    .then((data) => {
+    .then(data => {
       userData.screams = [];
-      data.forEach((doc) => {
+      data.forEach(doc => {
         userData.screams.push({
           body: doc.data().body,
           createdAt: doc.data().createdAt,
@@ -140,6 +142,11 @@ exports.getUserDetails = (req, res) => {
           screamId: doc.id,
         });
       });
+      return res.json(userData);
+    })
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
     });
 };
 
