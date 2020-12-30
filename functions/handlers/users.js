@@ -212,7 +212,7 @@ exports.uploadImage = (req, res) => {
   let imageToBeUploaded = {};
 
   busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
-    //Need to include all of these arguments for 'on' even though we don't them all
+    //Need to include all of these arguments for 'on' even though we don't need them all
     if (mimetype !== "image/jpeg" && mimetype !== "image/png") {
       return res.status(400).json({ error: "Wrong file type sumbitted" }); //400 bad request
     }
@@ -257,3 +257,19 @@ exports.uploadImage = (req, res) => {
   });
   busboy.end(req.rawBody);
 };
+
+exports.markNotificationsRead = (req, res) => {
+  let batch = db.batch();
+  req.body.forEach(notificationId => {
+    const notification = db.doc(`/notifications/${notificationId}`);
+    batch.update(notification, { read: true });
+  });
+  batch.commit()
+  .then(() => {
+    return res.json({ message: 'Notification marked as read'});
+  })
+  .catch(err => {
+    console.error(err);
+    return res.status(500).json({ error: err.code });
+  });
+}
