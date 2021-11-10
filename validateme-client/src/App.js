@@ -1,21 +1,29 @@
 import React, { Component } from "react";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
+//Components
+import Navbar from "./components/Navbar";
+
 //Pages
-import home from "./pages/home";
-import login from "./pages/login";
-import signup from "./pages/signup";
+import Home from "./pages/home";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Routes>
-          <Route path="/" element={<home />} />
-          <Route path="/login" element={<login />} />
-          <Route path="/signup" element={<signup />} />
-        </Routes>
+        <Router>
+          <Navbar />
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Routes>
+          </div>
+        </Router>
       </div>
     );
   }
